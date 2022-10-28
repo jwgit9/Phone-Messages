@@ -1,5 +1,6 @@
 # Development Environment Files
 .idea
+__pycache__
 
 # Environmental Variables
 .env

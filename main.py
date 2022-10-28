@@ -2,9 +2,13 @@ import os
 import smtplib
 from dotenv import load_dotenv
 
+from providers import PROVIDERS
+from receivers import RECEIVERS
 
-def send_message(sender_email, sender_password, receiver_email):
-    print("sending a message")
+
+def send_message(sender_email, sender_password, receiver_address):
+    print(f"Sending a message to: {receiver_address}")
+
     # creates SMTP session
     s = smtplib.SMTP('smtp.gmail.com', 587)
 
@@ -18,10 +22,12 @@ def send_message(sender_email, sender_password, receiver_email):
     message = "Hello World"
 
     # sending the mail
-    s.sendmail(sender_email, receiver_email, message)
+    s.sendmail(sender_email, receiver_address, message)
 
     # terminating the session
     s.quit()
+
+    print(f"Message successfully sent to: {receiver_address}")
 
 
 if __name__ == "__main__":
@@ -33,6 +39,18 @@ if __name__ == "__main__":
 
     # gmail disabled insecure apps after May 2022, so now using an app password generated in gmail is a must
     sender_email_app_password = os.getenv("SENDER_EMAIL_APP_PASSWORD")
-    receiver_email_id = os.getenv("RECEIVER_EMAIL_ID")
+    # receiver_email_id = os.getenv("RECEIVER_EMAIL_ID")
 
-    send_message(sender_email_id, sender_email_app_password, receiver_email_id)
+    for receiver in RECEIVERS.keys():
+        receiver_address_id = receiver
+        mms_support = False
+
+        # if the receiver is a phone number
+        if RECEIVERS[receiver]["phone"]:
+            provider = RECEIVERS[receiver]["provider"]
+            if PROVIDERS[provider]["mms_support"]:
+                mms_support = True
+                receiver_address_id = receiver + "@" + PROVIDERS[provider]["mms"]
+            else:
+                receiver_address_id = receiver + "@" + PROVIDERS[provider]["sms"]
+        send_message(sender_email_id, sender_email_app_password, receiver_address_id)

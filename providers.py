@@ -26,10 +26,12 @@ PROVIDERS = {
     },
     "Google Project Fi": {
         "sms": "msg.fi.google.com",
+        "mms": "msg.fi.google.com",
         "mms_support": True
     },
     "Metro PCS": {
         "sms": "mymetropcs.com",
+        "mms": "mymetropcs.com",
         "mms_support": True
     },
     "Mint Mobile": {
@@ -57,6 +59,7 @@ PROVIDERS = {
     },
     "T-Mobile": {
         "sms": "tmomail.net",
+        "mms": "tmomail.net",
         "mms_support": True
     },
     "Ting": {
@@ -64,7 +67,7 @@ PROVIDERS = {
         "mms_support": False
     },
     "Tracfone": {
-        "sms": "",
+        "sms": "mmst5.tracfone.com",
         "mms": "mmst5.tracfone.com",
         "mms_support": True
     },
