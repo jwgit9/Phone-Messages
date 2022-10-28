@@ -1,4 +1,6 @@
 import os
+import time
+
 import smtplib
 from dotenv import load_dotenv
 
@@ -31,7 +33,10 @@ def send_message(sender_email, sender_password, receiver_address):
 
 
 if __name__ == "__main__":
-    print("running main")
+    start_time = time.time()
+
+    print("-------------Starting Email Program----------------")
+
     # load env variables
     load_dotenv()
     sender_email_id = os.getenv("SENDER_EMAIL_ID")
@@ -39,7 +44,6 @@ if __name__ == "__main__":
 
     # gmail disabled insecure apps after May 2022, so now using an app password generated in gmail is a must
     sender_email_app_password = os.getenv("SENDER_EMAIL_APP_PASSWORD")
-    # receiver_email_id = os.getenv("RECEIVER_EMAIL_ID")
 
     for receiver in RECEIVERS.keys():
         receiver_address_id = receiver
@@ -54,3 +58,6 @@ if __name__ == "__main__":
             else:
                 receiver_address_id = receiver + "@" + PROVIDERS[provider]["sms"]
         send_message(sender_email_id, sender_email_app_password, receiver_address_id)
+
+    print("-------------Ending Email Program----------------")
+    print("--- %s seconds ---" % (time.time() - start_time))
